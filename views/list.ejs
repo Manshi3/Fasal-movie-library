@@ -1,0 +1,23 @@
+<h2>Movies in <%- listname%></h2>
+
+<div class="movie-results">
+    <ul class="movie-list">
+        <% movies.forEach(movie => { %>
+            <li class="movie-item">
+                <div class="movie-poster">
+                <img src="<%= movie.poster %>" alt="<%= movie.title %>">
+                </div>
+                <div class="movie-info">
+                    <h3 class="movie-title">
+                        <a href="/movies/details/<%= movie.movieId %>"><%= movie.title %> (<%= movie.year %>)</a>
+                    </h3>
+                </div>
+                <%if (locals.user){%>
+                <form class="delete-movie-form" action="/lists/<%= movie.listId %>/<%= movie.id %>/delete" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+                <%}%>
+            </li>
+        <% }) %>
+    </ul>
+</div>

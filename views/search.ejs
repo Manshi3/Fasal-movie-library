@@ -1,0 +1,50 @@
+<h2>Search Results for "<%= query %>"</h2>
+
+<div class="movie-results">
+    <% if (movies) { %>
+        <ul class="movie-list">
+            <% movies.forEach(movie => { %>
+            <li class="movie-item">
+                <div class="movie-poster">
+                <img src="<%= movie.Poster %>" alt="<%= movie.Title %>">
+                </div>
+                <div class="movie-info">
+                <h3 class="movie-title">
+                    <a href="/movies/details/<%= movie.imdbID %>"><%= movie.Title %> (<%= movie.Year %>)</a>
+                </h3>
+                <%if (locals.user){%>
+                <form action="/lists/add" method="POST" class="add-movie-form">
+                    <input type="hidden" name="imdbId" value="<%= movie.imdbID %>">
+                    <input type="hidden" name="title" value="<%= movie.Title %>">
+                    <input type="hidden" name="year" value="<%= movie.Year %>">
+                    <input type="hidden" name="poster" value="<%= movie.Poster %>">
+                    <select name="listId" required>
+                    <% lists.forEach(list => { %>
+                        <option value="<%= list.id %>"><%= list.name %></option>
+                    <% }) %>
+                    </select>
+                    <button type="submit">Add to List</button>
+                </form>
+                <%}%>
+                </div>
+            </li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No results found</p>
+    <% } %>
+</div>
+
+<% if (totalPages > 1) { %>
+  <div class="pagination">
+    <% if (currentPage > 1) { %>
+      <a href="/movies/search?query=<%= query %>&page=<%= currentPage - 1 %>">&laquo; Previous</a>
+    <% } %>
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <a href="/movies/search?query=<%= query %>&page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+    <% } %>
+    <% if (currentPage < totalPages) { %>
+      <a href="/movies/search?query=<%= query %>&page=<%= currentPage + 1 %>">Next &raquo;</a>
+    <% } %>
+  </div>
+<% } %>

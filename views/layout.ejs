@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- title %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <%- include('./header.ejs') %>
+        <main>
+            <%- body %>
+        </main>
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+            const successMessage = "<%= success_msg %>";
+            const errorMessage = "<%= error_msg %>";
+            const error = "<%= error %>";
+
+            if (successMessage) {
+                alert(successMessage);
+            }
+            if (errorMessage) {
+                alert(errorMessage);
+            }
+            if (error) {
+                alert(error);
+            }
+            });
+        </script>
+    </div>
+</body>
+</html>

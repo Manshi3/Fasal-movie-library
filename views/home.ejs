@@ -1,0 +1,48 @@
+<h2>Welcome to Movie Library</h2>
+
+<div class="search-box">
+    <h3>Search Movies</h3>
+    <form id="search-form" action="/movies/search" method="GET">
+        <input type="text" name="query" placeholder="Search" required>
+        <button type="submit" class="submit">Search</button>
+    </form>
+</div>
+
+<%if (locals.user){%>
+<div class="lists">
+    <h3>Your Movie Lists</h3>
+    <div class="add-list-btn-div">
+        <button onclick="document.getElementById('create-list-modal').style.display = 'block'" class="add-list-btn">+</button>
+    </div>
+    <ul>
+        <% lists.forEach(list => { %>
+        <li>
+            <a href="/lists/<%= list.id %>"><%= list.name %></a>
+            <% if (list.isPublic) { %>
+            (Public)
+            <% } else { %>
+            (Private)
+            <% } %>
+            <form class="delete-list-form" action="/lists/<%= list.id %>/delete" method="POST" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        <% }) %>
+    </ul>
+</div>
+<%}%>
+
+<div id="create-list-modal" class="modal">
+    <div class="modal-content">
+        <span onclick="document.getElementById('create-list-modal').style.display = 'none'" class="close">&times;</span>
+        <h2>Create a New List</h2>
+        <form id="create-list-form" action="/lists/create" method="POST">
+            <label for="list-name">List Name:</label>
+            <input type="text" id="list-name" name="name" required>
+            <label for="list-public">Public:</label>
+            <input type="checkbox" id="list-public" name="isPublic">
+            <button type="submit">Create List</button>
+        </form>
+    </div>
+</div>
+
